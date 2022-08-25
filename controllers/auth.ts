@@ -21,7 +21,7 @@ export const loginController = async ( req: any, res: any ) =>{
 
         if( !validPassword ) return res.status( 400 ).json({ msg:'Invalid password - Please try again'});
 
-        const token = await createJWT( user.id );
+        const token = await createJWT( user.id, correo, password);
 
 
         return res.json({
