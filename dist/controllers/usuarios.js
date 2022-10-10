@@ -33,7 +33,7 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.getUsuario = getUsuario;
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { limit = 5, from = 0, to = 5 } = req.query;
+    const { limit = 10, from = 0, to = 5 } = req.query;
     const query = { estado: true };
     const [total, users] = yield Promise.all([
         Usuario.countDocuments(query),
@@ -69,8 +69,6 @@ const putUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     ;
     const userSend = yield Usuario.findByIdAndUpdate(id, user, { new: true });
-    console.log(userSend);
-    console.log(user);
     return res.status(201).json({
         id,
         userSend

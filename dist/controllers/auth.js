@@ -27,7 +27,7 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
         const validPassword = bcrypt_1.default.compareSync(password, user.password);
         if (!validPassword)
             return res.status(400).json({ msg: 'Invalid password - Please try again' });
-        const token = yield (0, generateJWT_1.createJWT)(user.id);
+        const token = yield (0, generateJWT_1.createJWT)(user.id, user.correo, user.password);
         return res.json({
             user,
             token

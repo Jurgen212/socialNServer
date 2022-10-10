@@ -17,7 +17,7 @@ export const getUsuario = async ( req: any, res: any ) =>{
 
 export const getUsuarios = async ( req: any, res: any ) =>{
 
-    const { limit = 5, from = 0, to = 5 } = req.query;
+    const { limit = 10, from = 0, to = 5 } = req.query;
 
     const query = { estado: true };
 
@@ -73,8 +73,7 @@ export const putUsuarios = async ( req: any, res: any ) =>{
 
     const userSend = await Usuario.findByIdAndUpdate( id, user, { new: true } );
 
-    console.log( userSend )
-    console.log( user )
+    
     return res.status( 201 ).json({
         id, 
         userSend

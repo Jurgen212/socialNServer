@@ -8,7 +8,6 @@ export const loginController = async ( req: any, res: any ) =>{
 
     const { correo, password } = req.body;
 
-
     try{
 
         const user  = await Usuario.findOne({ correo });
@@ -21,8 +20,8 @@ export const loginController = async ( req: any, res: any ) =>{
 
         if( !validPassword ) return res.status( 400 ).json({ msg:'Invalid password - Please try again'});
 
-        const token = await createJWT( user.id, correo, password);
-
+        const token = await createJWT( user.id, user.correo, user.password);
+        
 
         return res.json({
             user,

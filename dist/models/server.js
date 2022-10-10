@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = require("../database/config");
+const http_1 = __importDefault(require("http"));
 class Server {
     constructor() {
         this.apiPath = {
             usuarios: '/api/usuarios',
-            login: '/api/login'
+            login: '/api/login',
+            pathRuta: '/api/path'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || "8080";
@@ -29,6 +31,7 @@ class Server {
         this.middlewares();
         //Active the routes
         this.routes();
+        this.serverIo = http_1.default.createServer(this.app);
     }
     connectDb() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -46,10 +49,11 @@ class Server {
     routes() {
         this.app.use(this.apiPath.usuarios, require('../routes/usuarios'));
         this.app.use(this.apiPath.login, require('../routes/auth'));
+        this.app.use(this.apiPath.pathRuta, require('../routes/path'));
     }
     ;
     listen() {
-        this.app.listen(this.port, () => {
+        this.serverIo.listen(this.port, () => {
             console.log("Server running in port " + this.port);
         });
     }

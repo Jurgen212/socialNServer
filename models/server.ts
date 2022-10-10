@@ -2,25 +2,27 @@ import express, { Application } from "express";
 
 import cors from "cors";
 
-import { dbConnection } from '../database/config';
+import { dbConnection } from '../database/config'   ;
+import http             from 'http'                 ;  
 
+export default class Server {
 
+    private app     : Application   ;
+    private port    : string        ;
+    private serverIo: http.Server   ; 
 
-class Server {
+    
 
-    private app : Application   ;
-    private port: string        ;
     private apiPath = {
         usuarios: '/api/usuarios',
-        login   : '/api/login'
+        login   : '/api/login'   ,
+        pathRuta: '/api/path'
     };
 
 
     constructor(){
         this.app    = express()                     ;
         this.port   = process.env.PORT || "8080"    ;
-
-
         //Connect to database
 
         this.connectDb();
@@ -30,6 +32,8 @@ class Server {
 
         //Active the routes
         this.routes()
+
+        this.serverIo = http.createServer( this.app );        
     }
 
     async connectDb(){
@@ -56,16 +60,16 @@ class Server {
 
         this.app.use( this.apiPath.usuarios ,  require('../routes/usuarios'  ) );
         this.app.use( this.apiPath.login    ,  require('../routes/auth'      ) );
+        this.app.use( this.apiPath.pathRuta ,  require('../routes/path'      ) );
     };
 
 
     listen(){
 
-        this.app.listen( this.port, () => {
+        this.serverIo.listen( this.port, () => {
             console.log("Server running in port " + this.port );
         })
+
     }
 }
 
-
-export default Server;
